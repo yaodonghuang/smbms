@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ssm_smbms.dao.workDaoMapper" >
+  <resultMap id="BaseResultMap" type="Work" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="work_name" property="workName" jdbcType="VARCHAR" />
+    <result column="work_content" property="workContent" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="work_people" property="workPeople" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="if_work" property="ifWork" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, date, work_name, work_content, phone, work_people, remark, if_work
+  </sql>
+  
+  <select id="getWorkById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smbms_work
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from smbms_work
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="add" parameterType="Work" >
+    insert into smbms_work (id, date, work_name, 
+      work_content, phone, work_people, 
+      remark, if_work)
+    values (#{id,jdbcType=BIGINT}, #{date,jdbcType=TIMESTAMP}, #{workName,jdbcType=VARCHAR}, 
+      #{workContent,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{workPeople,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{ifWork,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="Work" >
+    update smbms_work
+    set date = #{date,jdbcType=TIMESTAMP},
+      work_name = #{workName,jdbcType=VARCHAR},
+      work_content = #{workContent,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      work_people = #{workPeople,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      if_work = #{ifWork,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getWorkList" parameterType="map" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from smbms_work
+	where work_name like 
+	concat(concat('%',#{workName,jdbcType=VARCHAR}),'%')
+  </select>
+</mapper>
