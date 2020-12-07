@@ -113,7 +113,7 @@
   
   <update id="updatePwd" parameterType="map">
   	update smbms_user 
-  	set userPassword=#{userPassword,jdbcType=VARCHAR} 
+  	set userPassword=#{pwd,jdbcType=VARCHAR} 
   	where id=#{id,jdbcType=BIGINT}
   </update>
   
